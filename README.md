@@ -8,7 +8,7 @@
 - Add necessary configs to get the app running.
 ### TECHS:
 - REACT
-- TAILWIND CSS & DAISY UI: For style
+- TAILWIND CSS & DAISY UI: For style (use vite installation)
 - FORMIK & YUP: Form handler and validation
 - REACT QUERY: Request & Caching
 
