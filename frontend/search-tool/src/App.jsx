@@ -1,12 +1,14 @@
 import './App.css'
+import SearchForm from "./components/SearchForm"
+
 
 function App() {
   return (
     <>
     <h1 className="text-3xl font-bold underline">
-      Hello world!
+      Search Engine
     </h1>
-
+    <SearchForm />
     </>
   )
 }
