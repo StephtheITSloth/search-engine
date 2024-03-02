@@ -46,7 +46,7 @@ export const SearchForm = () => {
     <form onSubmit={handleSubmit}>
         <label htmlFor="searchInput">{errors && touched && <div>{errors.searchInput}</div>}</label>
         <input id="searchInput" placeholder="search here..." name="searchInput" type="text" onChange={handleChange} onBlur={handleBlur} value={values.searchInput}/>
-        <button type="submit">search</button>
+        <button type="submit">search.</button>
     </form>
   )
 }
