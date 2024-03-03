@@ -11,6 +11,7 @@ const searchFormValidationSchema = Yup.object().shape({
     .required('Input is Required')
 })
 
+//checkout the axios instance for the right url also think about the search query to pass
 async function fetchData(){
     const {data} = await axiosInstance.get()
     return data
