@@ -1,5 +1,8 @@
 from elasticsearch import Elasticsearch
-from config.config_handling import get_config_value
+import sys
+from config_handling import get_config_value
+
+sys.path.insert(0, '/backend/venv/config/config_handling.py')
 
 
 def connect_elasticsearch(**kwargs):

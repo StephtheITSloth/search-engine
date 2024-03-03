@@ -1,39 +1,75 @@
-from flask import Flask
-from api.elastic_test import connect_elasticsearch
-# from dotenv import load_dotenv
-# from elasticsearch import Elasticsearch
-# import os
 
-es = connect_elasticsearch()
+# /////////////////////////////////
+
+from flask import Flask
+from flask import jsonify, request
+from elasticsearch import Elasticsearch
+from elasticsearch import helpers
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+app = Flask(__name__)
+
+# app.config['USERNAME'] = os.getenv('USERNAME')
+# app.config['PASSWORD'] = os.getenv('PASSWORD')
+# app.config['CLOUD_ID'] = os.getenv('SECRET_KEY')
+
+cloud_id = "be6ec3baaca345a3a87d741fac6fe7cf:dXMtY2VudHJhbDEuZ2NwLmNsb3VkLmVzLmlvJDg1NmNiNjJlNTA5ZjQ1OTRhN2RmNmI4MDZhM2FiNjAxJDJkNGQwNjM3NmQxYzRjZGNhMzE1NTQ3YWNhMzUzYzNm"
+username = "rimkstylish1"
+password = "Stephrimk1$"
+es = Elasticsearch(cloud_id=cloud_id, http_auth=(username, password))
+
+response = es.cluster.health()
+print(response)
+
+# ////////////////////////
+
+
+
+
+es = Elasticsearch(cloud_id=cloud_id, http_auth=(username, password))
+
 
 
 # load_dotenv()
 
-app = Flask(__name__)
 
-from api.insert_data import *
-from api.retrieve_data import *
+# from api.insert_data import 
+@app.route('/', methods=['GET'])
+def home():
+    print('Server is running')
 
+
+# @app.route('/get_user', methods=['GET'])
+# def get_user():
+#     user_id = request.form['id']
+#     results = es.get(index='user', id=user_id)
+#     return jsonify(results['_source'])
+
+
+# @app.route('/search_user', methods=['GET'])
+# def search_user():
+#     keyword = request.form['keyword']
+
+#     query_body = {
+#         "query": {
+#             "match": {
+#                 "name": keyword
+#             }
+#         }
+#     }
+
+#     res = es.search(index="user", body=query_body)
+
+#     return jsonify(res['hits']['hits'])
 
 # client = Elasticsearch(
 #   "https://856cb62e509f4594a7df6b806a3ab601.us-central1.gcp.cloud.es.io:443",
 #   api_key=""
 # )
 
-# documents = [
-#   { "index": { "_index": "search-paymentdata2024", "_id": "9780553351927"}},
-#   {"name": "Snow Crash", "author": "Neal Stephenson", "release_date": "1992-06-01", "page_count": 470, "_extract_binary_content": true, "_reduce_whitespace": true, "_run_ml_inference": true},
-#   { "index": { "_index": "search-paymentdata2024", "_id": "9780441017225"}},
-#   {"name": "Revelation Space", "author": "Alastair Reynolds", "release_date": "2000-03-15", "page_count": 585, "_extract_binary_content": true, "_reduce_whitespace": true, "_run_ml_inference": true},
-#   { "index": { "_index": "search-paymentdata2024", "_id": "9780451524935"}},
-#   {"name": "1984", "author": "George Orwell", "release_date": "1985-06-01", "page_count": 328, "_extract_binary_content": true, "_reduce_whitespace": true, "_run_ml_inference": true},
-#   { "index": { "_index": "search-paymentdata2024", "_id": "9781451673319"}},
-#   {"name": "Fahrenheit 451", "author": "Ray Bradbury", "release_date": "1953-10-15", "page_count": 227, "_extract_binary_content": true, "_reduce_whitespace": true, "_run_ml_inference": true},
-#   { "index": { "_index": "search-paymentdata2024", "_id": "9780060850524"}},
-#   {"name": "Brave New World", "author": "Aldous Huxley", "release_date": "1932-06-01", "page_count": 268, "_extract_binary_content": true, "_reduce_whitespace": true, "_run_ml_inference": true},
-#   { "index": { "_index": "search-paymentdata2024", "_id": "9780385490818"}},
-#   {"name": "The Handmaid's Tale", "author": "Margaret Atwood", "release_date": "1985-06-01", "page_count": 311, "_extract_binary_content": true, "_reduce_whitespace": true, "_run_ml_inference": true},
-# ]
+
 
 # client.bulk(operations=documents, pipeline="ent-search-generic-ingestion")
 
