@@ -3,8 +3,6 @@
 from flask import Flask
 from flask import send_file, jsonify,request
 from flask_cors import CORS
-from io import BytesIO
-import json
 from elasticsearch_connection import es
 
 
