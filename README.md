@@ -36,12 +36,16 @@
 
 ## Install
 - clone the repo
-- run npm i
+- move to the appropriate directory
 ## Frontend
+- npm i
 - navigate to search-tool/frontend/search-tool/src
 - In the command line run <$ npm run dev>
 ## backend
 - navigate to search-tool/backend/venv
+- activate the environment <$ venv/Scripts/activate>
+- May have to install Flask, Flask_cors, elasticSearch
+- Create and add the provided file to the venv directory (file name elasticsearch_connection.py
 - In te command line run <$ flask --app server run>
 ## Tailwind
 -run npx tailwindcss -i ./src/index.css -o ./src/output.css --watch
