@@ -5,6 +5,8 @@ from flask import send_file, jsonify,request
 from flask_cors import CORS
 from elasticsearch_connection import es
 
+import os
+os.environ['FLASK_APP'] = 'server.py'
 
 app = Flask(__name__)
 CORS(app)
