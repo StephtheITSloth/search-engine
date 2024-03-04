@@ -2,45 +2,45 @@ import React, {useState} from 'react'
 import {useFormik} from "formik"
 import * as Yup from "yup"
 import {useQuery} from '@tanstack/react-query'
-import { axiosInstance } from '../axiosInstance'
+import axios from "axios"
+
 
 const searchFormValidationSchema = Yup.object().shape({
-    searchInput: Yup.string()
+    doctorId: Yup.string()
     .min(3, ('Too Short - input should have more than 3 characters'))
     .max(25, ('Too Long'))
     .required('Input is Required')
 })
 
-//checkout the axios instance for the right url also think about the search query to pass
-async function fetchData(){
-    const {data} = await axiosInstance.get()
-    return data
-}
+// async function fetchData(query){
+    
+// }
 
 
 function SearchForm() {
-    const [searchData, setSearchData] = useState([])
+    const [fileUrl, setFileUrl] = useState('');
 
-    const fallback = []
-
-    const {data = fallback, isLoading} = useQuery({
-    queryKey: ['search'],
-    queryFn: fetchData
-    });
 
     const {values, handleBlur, handleChange, handleSubmit, errors, touched, isSubmitting, isValidating} = useFormik({
         initialValues: {
-            searchInput: ""
+            doctorId: ""
         },
         validationSchema: searchFormValidationSchema,
         validateOnChange: true,
         onSubmit: async (values) => {
-            await fetchData()
+            try {
+                const response = await fetch(`http://127.0.0.1:5000/api/v1/payments?doctorId=${values.doctorId}`);
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+            setFileUrl(url);
+            } catch (error) {
+                console.log(error.message)
+            }
         },
         validate: values => {
             let errors = {}
-            if(!values.searchInput){
-                errors.searchInput = "Search input should have at least 3 characters"
+            if(!values.doctorId){
+                errors.doctorId = "Search input should have at least 3 characters"
             }
 
             return errors
@@ -49,15 +49,14 @@ function SearchForm() {
   return (
     <>
         <form onSubmit={handleSubmit}>
-            <label htmlFor="searchInput">{errors.searchInput && <div>{errors.searchInput}</div>}</label>
+            <label htmlFor="doctorId">{errors.doctorId && <div>{errors.doctorId}</div>}</label>
             <input type="text" placeholder="Enter your search value" onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.searchInput}
-                name="searchInput"/>
+                value={values.doctorId}
+                name="doctorId"/>
             <button type="submit">search</button>
         </form>
-        {isLoading && (<h3>Loading...</h3>)}
-        {data.map(elem => {<p key={elem.id}>{elem.title}</p>})}
+        {fileUrl && <a href={fileUrl} download>Download file here</a>}
     </>
   )
 }
