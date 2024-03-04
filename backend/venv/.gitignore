@@ -130,6 +130,8 @@ dmypy.json
 
 .flaskenv
 
+elasticsearch_connection.py
+
 # Elastic Kibana Log files
 ES_DATA
 ES_DATA/
