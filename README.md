@@ -10,7 +10,8 @@
 - REACT
 - TAILWIND CSS & DAISY UI: For style (use vite installation)
 - FORMIK & YUP: Form handler and validation
-- REACT QUERY: Request & Caching
+- sheetjs-style 
+- file-saver (save large file)
 
 ## BACKEND
 ### Install a flask server 
@@ -27,6 +28,9 @@
 - Need to run some end to end tests
 - Find a better way to protect environments variables
 - upload larger data (couldn't upload the data we wanted because of the 100MB limit on elasticsearch)
+
+# Credits:
+- export excel tool : https://blog.bitsrc.io/exporting-data-to-excel-with-react-6943d7775a92
 
 # TO USE
 
