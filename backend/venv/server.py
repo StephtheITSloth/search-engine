@@ -1,32 +1,38 @@
 
 
 from flask import Flask
-from flask import jsonify, request
+from flask import send_file, jsonify,request
+from io import BytesIO
+import json
 from elasticsearch_connection import es
 
 
 app = Flask(__name__)
 
 
-response = es.cluster.health()
-print(response)
-
-es.search(index="search-payment-csv",body={"query": {"match_all": {}}})
-print("Documents Found")
-
 
 # from api.insert_data import 
-@app.route('/', methods=['GET'])
-def home():
-    print('Server is running')
+@app.route('/home/', methods=['GET'])
+def search():
+    query_param = request.args.get('searchQuery', "")
+    query = {"query": {"match_all": {}}}
 
-es.search(index="search-paymentdata2024", q="snow")
-# @app.route('/get_user', methods=['GET'])
-# def get_user():
-#     user_id = request.form['id']
-#     results = es.get(index='user', id=user_id)
-#     return jsonify(results['_source'])
+    file_path = 'static/files/search_data.txt'
 
+    if query_param:
+        query = {"query": {"match": {"Physician_Profile_ID": query_param}}}
+
+    res = es.search(index="search-payment-csv",body=query)
+    # print(results)
+    # data = (res['hits']['hits'])
+    hits_data = [hit['_source'] for hit in res['hits']['hits']]
+
+    # Create a file-like object in memory to write the JSON data
+    json_bytes = json.dumps(hits_data).encode('utf-8')
+    file_obj = BytesIO(json_bytes)
+
+    # Return the file as a download with a customized filename
+    return send_file(file_obj, as_attachment=True, download_name='search_results.json', mimetype='application/json')
 
 # @app.route('/search_user', methods=['GET'])
 # def search_user():
@@ -44,21 +50,6 @@ es.search(index="search-paymentdata2024", q="snow")
 
 #     return jsonify(res['hits']['hits'])
 
-# client = Elasticsearch(
-#   "https://856cb62e509f4594a7df6b806a3ab601.us-central1.gcp.cloud.es.io:443",
-#   api_key=""
-# )
-
-
-
-# client.bulk(operations=documents, pipeline="ent-search-generic-ingestion")
-
-# client.info()
-# client.search(index="search-paymentdata2024", q="snow")
-
-# @app.route("/")
-# def hello_world():
-#     return "<p>Hello world</p>"
 
 if __name__ == "__main__":
     app.run(debug=True)
