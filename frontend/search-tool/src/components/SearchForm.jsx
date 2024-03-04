@@ -56,7 +56,7 @@ function SearchForm() {
         </form>
         {jsonData && <ExportCSV csvData={jsonData} fileName={"search data"}/>}
         {jsonData && (<div>
-            <ExportReactCSV csvData={jsonData} fileName={"search data"} />
+            <ExportReactCSV csvData={Object.keys(jsonData).map(key => jsonData[key])} fileName={"search data"} />
         </div>)}
     </>
   )
